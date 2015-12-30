@@ -1,0 +1,149 @@
+swagger: '2.0'
+info:
+  title: Resource Service
+  description: Each Microservice or Logical Resource is considered as a resource.
+  version: 1.0.0
+host: resource.dokku.florahospitality.com
+schemes:
+  - http
+basePath: /api
+produces:
+  - application/json
+paths:
+  /resources:
+    get:
+      summary: Resources
+      description: List all Resources
+      tags:
+        - Resources
+      responses:
+        '200':
+          description: "List of Resources"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Resources'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Resources
+      description: Add a Resource
+      tags:
+        - Resources
+      parameters:
+        - name: name
+          in: formData
+          description: Name
+          required: true
+          type: string
+
+      responses:
+        '200':
+          description: "Resource Created Successfully"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Resources'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+
+    delete:
+      summary: Delete Resources in Bulk
+      description: Delete Mulitple Resources
+      tags:
+        - Resources
+      parameters:
+        - name: '0'
+          in: query
+          description: Resource ID's
+          required: true
+          type: number
+
+          collectionFormat: multi
+      responses:
+        '200':
+          description: Login Success
+          schema:
+            $ref: '#/definitions/Success'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /resources/{id}:
+    put:
+      summary: Resources
+      description: List all Resources
+      tags:
+        - Resources
+      parameters:
+        - name: id
+          in: path
+          description: Resource ID
+          required: true
+          type: number
+        - name: body
+          in: body
+          description: Resource ID
+          required: true
+          schema:
+            $ref: '#/definitions/Resources'
+
+      responses:
+        '200':
+          description: "List of Resources"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Resources'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+    delete:
+      summary: Delete a Resource
+      description: Delete a Resource
+      tags:
+        - Resources
+      parameters:
+        - name: id
+          in: path
+          description: Resource ID
+          required: true
+          type: number
+      responses:
+        '200':
+          description: Resource Deleted Successfully
+          schema:
+            $ref: '#/definitions/Success'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+
+definitions:
+  Resources:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Name of the resource
+
+  Success:
+    type: object
+    properties:
+      token:
+        type: string
+        description: JWT Token
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+
